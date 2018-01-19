@@ -122,7 +122,7 @@ class Numbers extends Component {
       return this.generateNumbers();
     }
   }
-  
+
     // Verify that there is no more than One Single-Digit Number
   checkSingleDigits(numbers) {
     let singleDigitCount = 0;
@@ -284,16 +284,6 @@ class Numbers extends Component {
     console.log('Numbers Confirmed');
   }
   render() {
-    // if (typeof this.state.history[0] != 'undefined') {
-    //   const showPreviousResults = this.state.history.map((previous) => {
-    //     let sorted = previous.Results.sort((a, b) => {
-    //       return a - b;
-    //     });
-    //     return (
-    //       <h3 className="previous-result">{sorted.toString()} <br /> {previous.Date}</h3>
-    //     )
-    //   });
-    // };
     const newNumbers = this.state.numbers.map((num) => {
       return (
         <p className="new-number">{num}</p>
