@@ -272,8 +272,11 @@ class Numbers extends Component {
     const generatedNumbers = [];
     const numberGenerator = (count) => {
       if (count < 5) {
-        generatedNumbers.push(Math.floor((Math.random() * 38) + 1));
-        count++;
+        let generatedNumber = Math.floor((Math.random() * 39) + 1);
+        if (generatedNumber !== 40) {
+          generatedNumbers.push(generatedNumber);
+          count++;
+        }
         return numberGenerator(count);
       } else {
         return this.checkLength(generatedNumbers);
@@ -289,12 +292,10 @@ class Numbers extends Component {
     const fiveRandom = (count) => {
       if (count < 5) {
         let rando = Math.floor((Math.random() * 38) + 1);
-        if (!randomNums.includes(rando)) {
+        if (!randomNums.includes(rando) && rando !== 40) {
           randomNums.push(rando);
-        } else {
-          return fiveRandom(count);
-        };
-        count++;
+          count++;
+        }
         return fiveRandom(count);
       } else {
         return this.finalVerification(randomNums);
