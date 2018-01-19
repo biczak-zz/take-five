@@ -272,7 +272,7 @@ class Numbers extends Component {
     const generatedNumbers = [];
     const numberGenerator = (count) => {
       if (count < 5) {
-        generatedNumbers.push(Math.floor((Math.random() * 39) + 1));
+        generatedNumbers.push(Math.floor((Math.random() * 38) + 1));
         count++;
         return numberGenerator(count);
       } else {
@@ -288,7 +288,7 @@ class Numbers extends Component {
     const randomNums = [];
     const fiveRandom = (count) => {
       if (count < 5) {
-        let rando = Math.floor((Math.random() * 39) + 1);
+        let rando = Math.floor((Math.random() * 38) + 1);
         if (!randomNums.includes(rando)) {
           randomNums.push(rando);
         } else {
