@@ -42,7 +42,6 @@ class Numbers extends Component {
   componentWillMount() {
     console.log(this.cookies.get('resultsHistory'));
     if (this.cookies.get('resultsHistory')) {
-      
       const previousResults = this.cookies.get('resultsHistory');
       this.setState({
         previousResult: previousResults,
