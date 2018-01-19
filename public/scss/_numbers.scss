@@ -1,0 +1,50 @@
+#numbers-container {
+  width: 100%;
+  height: 100%;
+  color: #FFFFFF;
+  text-align: center;
+}
+#row-container {
+  width: 100%;
+  height: 50%;
+  display: flex;
+  justify-content: center;
+}
+#numbers-row {
+  width: 50%;
+  height: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.new-number {
+  font-size: 48px;
+  font-family: 'GeosansLight';
+}
+#previous-results {
+  width: 100vw;
+  font-size: 24px;
+  display: flex;
+  justify-content: space-between;
+}
+#previous-dates {
+  width: 100vw;
+  font-size: 24px;
+  display: flex;
+  justify-content: space-between;
+}
+.previous-result {
+  width: 100%;
+  font-family: 'GeosansLight';
+  padding: 10px;
+}
+.previous-date {
+  width: 100%;
+  font-family: 'GeosansLight';
+  padding: 10px;
+}
+.results {
+  width: 100px;
+  display: flex;
+  justify-content: space-around;
+}
