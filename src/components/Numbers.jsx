@@ -33,6 +33,7 @@ class Numbers extends Component {
     this.checkRepeatingOnesDigit = this.checkRepeatingOnesDigit.bind(this);
     this.checkSum = this.checkSum.bind(this);
     this.checkPrevious = this.checkPrevious.bind(this);
+    this.noRestrictions = this.noRestrictions.bind(this);
 
     this.finalVerification = this.finalVerification.bind(this);
     this.generateNumbers = this.generateNumbers.bind(this);
@@ -283,6 +284,24 @@ class Numbers extends Component {
   verified() {
     console.log('Numbers Confirmed');
   }
+  noRestrictions() {
+    const randomNums = [];
+    const fiveRandom = (count) => {
+      if (count < 5) {
+        let rando = Math.floor((Math.random() * 40) + 1);
+        if (!randomNums.includes(rando)) {
+          randomNums.push(rando);
+        } else {
+          return fiveRandom(count);
+        };
+        count++;
+        return fiveRandom(count);
+      } else {
+        return this.finalVerification(randomNums);
+      }
+    }
+    fiveRandom(0);
+  }
   render() {
     const newNumbers = this.state.numbers.map((num) => {
       return (
@@ -322,7 +341,7 @@ class Numbers extends Component {
         <div id="previous-dates">
           {previousDates}
         </div>
-        <Button clickHandler={this.generateNumbers} />
+        <Button clickHandler={this.generateNumbers} noRestrictions={this.noRestrictions} />
       </div>
     )
   }

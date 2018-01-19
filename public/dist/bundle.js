@@ -18363,6 +18363,7 @@ var Numbers = function (_Component) {
     _this.checkRepeatingOnesDigit = _this.checkRepeatingOnesDigit.bind(_this);
     _this.checkSum = _this.checkSum.bind(_this);
     _this.checkPrevious = _this.checkPrevious.bind(_this);
+    _this.noRestrictions = _this.noRestrictions.bind(_this);
 
     _this.finalVerification = _this.finalVerification.bind(_this);
     _this.generateNumbers = _this.generateNumbers.bind(_this);
@@ -18376,7 +18377,6 @@ var Numbers = function (_Component) {
     value: function componentWillMount() {
       console.log(this.cookies.get('resultsHistory'));
       if (this.cookies.get('resultsHistory')) {
-
         var previousResults = this.cookies.get('resultsHistory');
         this.setState({
           previousResult: previousResults,
@@ -18467,6 +18467,7 @@ var Numbers = function (_Component) {
         return this.generateNumbers();
       }
     }
+
     // Verify that there is no more than One Single-Digit Number
 
   }, {
@@ -18649,20 +18650,32 @@ var Numbers = function (_Component) {
       console.log('Numbers Confirmed');
     }
   }, {
-    key: 'render',
-    value: function render() {
+    key: 'noRestrictions',
+    value: function noRestrictions() {
       var _this3 = this;
 
-      // if (typeof this.state.history[0] != 'undefined') {
-      //   const showPreviousResults = this.state.history.map((previous) => {
-      //     let sorted = previous.Results.sort((a, b) => {
-      //       return a - b;
-      //     });
-      //     return (
-      //       <h3 className="previous-result">{sorted.toString()} <br /> {previous.Date}</h3>
-      //     )
-      //   });
-      // };
+      var randomNums = [];
+      var fiveRandom = function fiveRandom(count) {
+        if (count < 5) {
+          var rando = Math.floor(Math.random() * 40 + 1);
+          if (!randomNums.includes(rando)) {
+            randomNums.push(rando);
+          } else {
+            return fiveRandom(count);
+          };
+          count++;
+          return fiveRandom(count);
+        } else {
+          return _this3.finalVerification(randomNums);
+        }
+      };
+      fiveRandom(0);
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _this4 = this;
+
       var newNumbers = this.state.numbers.map(function (num) {
         return _react2.default.createElement(
           'p',
@@ -18671,7 +18684,7 @@ var Numbers = function (_Component) {
         );
       });
       var previousNumbers = this.state.history.map(function (res) {
-        if (_this3.state.history.indexOf(res) < 5) {
+        if (_this4.state.history.indexOf(res) < 5) {
           return _react2.default.createElement(
             'ul',
             { className: 'previous-result' },
@@ -18704,7 +18717,7 @@ var Numbers = function (_Component) {
         }
       });
       var previousDates = this.state.history.map(function (res) {
-        if (_this3.state.history.indexOf(res) < 5) {
+        if (_this4.state.history.indexOf(res) < 5) {
           return _react2.default.createElement(
             'h3',
             { className: 'previous-date' },
@@ -18734,7 +18747,7 @@ var Numbers = function (_Component) {
           { id: 'previous-dates' },
           previousDates
         ),
-        _react2.default.createElement(_Button2.default, { clickHandler: this.generateNumbers })
+        _react2.default.createElement(_Button2.default, { clickHandler: this.generateNumbers, noRestrictions: this.noRestrictions })
       );
     }
   }]);
@@ -19160,7 +19173,8 @@ var _react2 = _interopRequireDefault(_react);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Button = function Button(_ref) {
-  var clickHandler = _ref.clickHandler;
+  var clickHandler = _ref.clickHandler,
+      noRestrictions = _ref.noRestrictions;
   return _react2.default.createElement(
     "div",
     { id: "button-container" },
@@ -19168,6 +19182,16 @@ var Button = function Button(_ref) {
       "button",
       { className: "bttn-pill bttn-md", onClick: clickHandler },
       "Generate Numbers"
+    ),
+    _react2.default.createElement(
+      "button",
+      { className: "btn third", onClick: noRestrictions },
+      "No Restritctions"
+    ),
+    _react2.default.createElement(
+      "span",
+      { id: "bottom-button" },
+      "Click the bottom Button to Generate 5 Random Numbers (Between 1 - 39) without any restrictions / parameters."
     )
   );
 };
@@ -19215,7 +19239,7 @@ exports = module.exports = __webpack_require__(37)(false);
 
 
 // module
-exports.push([module.i, "@font-face {\n  font-family: 'GeosansLight';\n  src: url(" + escape(__webpack_require__(38)) + "); }\n\nhtml, body {\n  margin: 0;\n  padding: 0; }\n\n#app-container {\n  width: 100vw;\n  height: 100vh;\n  background: #00171F;\n  display: flex;\n  justify-content: center;\n  align-items: center; }\n\n#numbers-container {\n  width: 100%;\n  height: 100%;\n  color: #FFFFFF;\n  text-align: center; }\n\n#row-container {\n  width: 100%;\n  height: 50%;\n  display: flex;\n  justify-content: center; }\n\n#numbers-row {\n  width: 50%;\n  height: 100%;\n  display: flex;\n  justify-content: space-around;\n  align-items: center; }\n\n.new-number {\n  font-size: 48px;\n  font-family: 'GeosansLight'; }\n\n#previous-results {\n  width: 100vw;\n  font-size: 24px;\n  display: flex;\n  justify-content: space-between; }\n\n#previous-dates {\n  width: 100vw;\n  font-size: 24px;\n  display: flex;\n  justify-content: space-between; }\n\n.previous-result {\n  width: 100%;\n  font-family: 'GeosansLight';\n  padding: 10px; }\n\n.previous-date {\n  width: 100%;\n  font-family: 'GeosansLight';\n  padding: 10px; }\n\n.results {\n  width: 100px;\n  display: flex;\n  justify-content: space-around; }\n\n#button-container {\n  width: 100%;\n  display: flex;\n  justify-content: center;\n  align-items: center; }\n\n.bttn-default {\n  color: #fff; }\n\n.bttn-primary,\n.bttn,\n.bttn-lg,\n.bttn-md,\n.bttn-sm,\n.bttn-xs {\n  color: #1d89ff; }\n\n.bttn-warning {\n  color: #feab3a; }\n\n.bttn-danger {\n  color: #ff5964; }\n\n.bttn-success {\n  color: #28b78d; }\n\n.bttn-royal {\n  color: #bd2df5; }\n\n.bttn,\n.bttn-lg,\n.bttn-md,\n.bttn-sm,\n.bttn-xs {\n  margin: 0;\n  padding: 0;\n  border-width: 0;\n  border-color: transparent;\n  background: transparent;\n  font-weight: 400;\n  cursor: pointer;\n  position: relative; }\n\n.bttn-lg {\n  padding: 8px 15px;\n  font-size: 24px;\n  font-family: inherit; }\n\n.bttn-md {\n  font-size: 20px;\n  font-family: inherit;\n  padding: 5px 12px; }\n\n.bttn-sm {\n  padding: 4px 10px;\n  font-size: 16px;\n  font-family: inherit; }\n\n.bttn-xs {\n  padding: 3px 8px;\n  font-size: 12px;\n  font-family: inherit; }\n\n.bttn-pill {\n  margin: 0;\n  padding: 0;\n  border-width: 0;\n  border-color: transparent;\n  background: transparent;\n  font-weight: 400;\n  cursor: pointer;\n  position: relative;\n  font-size: 20px;\n  font-family: inherit;\n  padding: 5px 12px;\n  z-index: 0;\n  overflow: hidden;\n  border: none;\n  border-radius: 100px;\n  background: #1d89ff;\n  color: #fff;\n  -webkit-transition: all 0.3s cubic-bezier(0.02, 0.01, 0.47, 1);\n  transition: all 0.3s cubic-bezier(0.02, 0.01, 0.47, 1); }\n\n.bttn-pill:before,\n.bttn-pill:after {\n  position: absolute;\n  right: 0;\n  bottom: 0;\n  width: 100px;\n  height: 100px;\n  border-radius: 50%;\n  background: #fff;\n  content: '';\n  opacity: 0;\n  -webkit-transition: opacity 0.15s cubic-bezier(0.02, 0.01, 0.47, 1), -webkit-transform 0.15s cubic-bezier(0.02, 0.01, 0.47, 1);\n  transition: opacity 0.15s cubic-bezier(0.02, 0.01, 0.47, 1), -webkit-transform 0.15s cubic-bezier(0.02, 0.01, 0.47, 1);\n  transition: transform 0.15s cubic-bezier(0.02, 0.01, 0.47, 1), opacity 0.15s cubic-bezier(0.02, 0.01, 0.47, 1);\n  transition: transform 0.15s cubic-bezier(0.02, 0.01, 0.47, 1), opacity 0.15s cubic-bezier(0.02, 0.01, 0.47, 1), -webkit-transform 0.15s cubic-bezier(0.02, 0.01, 0.47, 1);\n  z-index: -1;\n  -webkit-transform: translate(100%, -25%) translate3d(0, 0, 0);\n  transform: translate(100%, -25%) translate3d(0, 0, 0); }\n\n.bttn-pill:hover,\n.bttn-pill:focus {\n  box-shadow: 0 1px 8px rgba(58, 51, 53, 0.3);\n  color: #fff;\n  -webkit-transition: all 0.5s cubic-bezier(0.02, 0.01, 0.47, 1);\n  transition: all 0.5s cubic-bezier(0.02, 0.01, 0.47, 1);\n  -webkit-transform: scale(1.1) translate3d(0, 0, 0);\n  transform: scale(1.1) translate3d(0, 0, 0); }\n\n.bttn-pill:hover:before,\n.bttn-pill:focus:before {\n  opacity: 0.15;\n  -webkit-transition: opacity 0.2s cubic-bezier(0.02, 0.01, 0.47, 1), -webkit-transform 0.2s cubic-bezier(0.02, 0.01, 0.47, 1);\n  transition: opacity 0.2s cubic-bezier(0.02, 0.01, 0.47, 1), -webkit-transform 0.2s cubic-bezier(0.02, 0.01, 0.47, 1);\n  transition: transform 0.2s cubic-bezier(0.02, 0.01, 0.47, 1), opacity 0.2s cubic-bezier(0.02, 0.01, 0.47, 1);\n  transition: transform 0.2s cubic-bezier(0.02, 0.01, 0.47, 1), opacity 0.2s cubic-bezier(0.02, 0.01, 0.47, 1), -webkit-transform 0.2s cubic-bezier(0.02, 0.01, 0.47, 1);\n  -webkit-transform: translate3d(50%, 0, 0) scale(0.9);\n  transform: translate3d(50%, 0, 0) scale(0.9); }\n\n.bttn-pill:hover:after,\n.bttn-pill:focus:after {\n  opacity: 0.25;\n  -webkit-transition: opacity 0.2s 0.05s cubic-bezier(0.02, 0.01, 0.47, 1), -webkit-transform 0.2s 0.05s cubic-bezier(0.02, 0.01, 0.47, 1);\n  transition: opacity 0.2s 0.05s cubic-bezier(0.02, 0.01, 0.47, 1), -webkit-transform 0.2s 0.05s cubic-bezier(0.02, 0.01, 0.47, 1);\n  transition: transform 0.2s 0.05s cubic-bezier(0.02, 0.01, 0.47, 1), opacity 0.2s 0.05s cubic-bezier(0.02, 0.01, 0.47, 1);\n  transition: transform 0.2s 0.05s cubic-bezier(0.02, 0.01, 0.47, 1), opacity 0.2s 0.05s cubic-bezier(0.02, 0.01, 0.47, 1), -webkit-transform 0.2s 0.05s cubic-bezier(0.02, 0.01, 0.47, 1);\n  -webkit-transform: translate(50%, 0) scale(1.1);\n  transform: translate(50%, 0) scale(1.1); }\n\n.bttn-pill.bttn-xs {\n  padding: 3px 8px;\n  font-size: 12px;\n  font-family: inherit; }\n\n.bttn-pill.bttn-xs:hover,\n.bttn-pill.bttn-xs:focus {\n  box-shadow: 0 1px 4px rgba(58, 51, 53, 0.3); }\n\n.bttn-pill.bttn-sm {\n  padding: 4px 10px;\n  font-size: 16px;\n  font-family: inherit; }\n\n.bttn-pill.bttn-sm:hover,\n.bttn-pill.bttn-sm:focus {\n  box-shadow: 0 1px 6px rgba(58, 51, 53, 0.3); }\n\n.bttn-pill.bttn-md {\n  font-size: 20px;\n  font-family: inherit;\n  padding: 5px 12px; }\n\n.bttn-pill.bttn-md:hover,\n.bttn-pill.bttn-md:focus {\n  box-shadow: 0 1px 8px rgba(58, 51, 53, 0.3); }\n\n.bttn-pill.bttn-lg {\n  padding: 8px 15px;\n  font-size: 24px;\n  font-family: inherit; }\n\n.bttn-pill.bttn-lg:hover,\n.bttn-pill.bttn-lg:focus {\n  box-shadow: 0 1px 10px rgba(58, 51, 53, 0.3); }\n\n.bttn-pill.bttn-default {\n  background: #fff;\n  color: #1d89ff; }\n\n.bttn-pill.bttn-default:hover,\n.bttn-pill.bttn-default:focus {\n  color: #1d89ff; }\n\n.bttn-pill.bttn-default:before,\n.bttn-pill.bttn-default:after {\n  background: #1d89ff; }\n\n.bttn-pill.bttn-primary {\n  background: #1d89ff;\n  color: #fff; }\n\n.bttn-pill.bttn-primary:hover,\n.bttn-pill.bttn-primary:focus {\n  color: #fff; }\n\n.bttn-pill.bttn-primary:before,\n.bttn-pill.bttn-primary:after {\n  background: #fff; }\n\n.bttn-pill.bttn-warning {\n  background: #feab3a;\n  color: #fff; }\n\n.bttn-pill.bttn-warning:hover,\n.bttn-pill.bttn-warning:focus {\n  color: #fff; }\n\n.bttn-pill.bttn-warning:before,\n.bttn-pill.bttn-warning:after {\n  background: #fff; }\n\n.bttn-pill.bttn-danger {\n  background: #ff5964;\n  color: #fff; }\n\n.bttn-pill.bttn-danger:hover,\n.bttn-pill.bttn-danger:focus {\n  color: #fff; }\n\n.bttn-pill.bttn-danger:before,\n.bttn-pill.bttn-danger:after {\n  background: #fff; }\n\n.bttn-pill.bttn-success {\n  background: #28b78d;\n  color: #fff; }\n\n.bttn-pill.bttn-success:hover,\n.bttn-pill.bttn-success:focus {\n  color: #fff; }\n\n.bttn-pill.bttn-success:before,\n.bttn-pill.bttn-success:after {\n  background: #fff; }\n\n.bttn-pill.bttn-royal {\n  background: #bd2df5;\n  color: #fff; }\n\n.bttn-pill.bttn-royal:hover,\n.bttn-pill.bttn-royal:focus {\n  color: #fff; }\n\n.bttn-pill.bttn-royal:before,\n.bttn-pill.bttn-royal:after {\n  background: #fff; }\n", ""]);
+exports.push([module.i, "@font-face {\n  font-family: 'GeosansLight';\n  src: url(" + escape(__webpack_require__(38)) + "); }\n\nhtml, body {\n  margin: 0;\n  padding: 0; }\n\n#app-container {\n  width: 100vw;\n  height: 100vh;\n  background: #00171F;\n  display: flex;\n  justify-content: center;\n  align-items: center; }\n\n#numbers-container {\n  width: 100%;\n  height: 100%;\n  color: #FFFFFF;\n  text-align: center; }\n\n#row-container {\n  width: 100%;\n  height: 50%;\n  display: flex;\n  justify-content: center; }\n\n#numbers-row {\n  width: 50%;\n  height: 100%;\n  display: flex;\n  justify-content: space-around;\n  align-items: center; }\n\n.new-number {\n  font-size: 48px;\n  font-family: 'GeosansLight'; }\n\n#previous-results {\n  width: 100vw;\n  font-size: 24px;\n  display: flex;\n  justify-content: space-between; }\n\n#previous-dates {\n  width: 100vw;\n  font-size: 24px;\n  display: flex;\n  justify-content: space-between; }\n\n.previous-result {\n  width: 100%;\n  font-family: 'GeosansLight';\n  padding: 10px; }\n\n.previous-date {\n  width: 100%;\n  font-family: 'GeosansLight';\n  padding: 10px; }\n\n.results {\n  width: 100px;\n  display: flex;\n  justify-content: space-around; }\n\n#button-container {\n  width: 100%;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  flex-direction: column;\n  align-items: center; }\n\n.bttn-default {\n  color: #fff; }\n\n.bttn-primary,\n.bttn,\n.bttn-lg,\n.bttn-md,\n.bttn-sm,\n.bttn-xs {\n  color: #1d89ff; }\n\n.bttn-warning {\n  color: #feab3a; }\n\n.bttn-danger {\n  color: #ff5964; }\n\n.bttn-success {\n  color: #28b78d; }\n\n.bttn-royal {\n  color: #bd2df5; }\n\n.bttn,\n.bttn-lg,\n.bttn-md,\n.bttn-sm,\n.bttn-xs {\n  margin: 0;\n  padding: 0;\n  border-width: 0;\n  border-color: transparent;\n  background: transparent;\n  font-weight: 400;\n  cursor: pointer;\n  position: relative; }\n\n.bttn-lg {\n  padding: 8px 15px;\n  font-size: 24px;\n  font-family: inherit; }\n\n.bttn-md {\n  font-size: 20px;\n  font-family: inherit;\n  padding: 5px 12px; }\n\n.bttn-sm {\n  padding: 4px 10px;\n  font-size: 16px;\n  font-family: inherit; }\n\n.bttn-xs {\n  padding: 3px 8px;\n  font-size: 12px;\n  font-family: inherit; }\n\n.bttn-pill {\n  margin: 0;\n  padding: 0;\n  border-width: 0;\n  border-color: transparent;\n  background: transparent;\n  font-weight: 400;\n  cursor: pointer;\n  position: relative;\n  font-size: 20px;\n  font-family: inherit;\n  padding: 5px 12px;\n  z-index: 0;\n  overflow: hidden;\n  border: none;\n  border-radius: 100px;\n  background: #1d89ff;\n  color: #fff;\n  -webkit-transition: all 0.3s cubic-bezier(0.02, 0.01, 0.47, 1);\n  transition: all 0.3s cubic-bezier(0.02, 0.01, 0.47, 1); }\n\n.bttn-pill:before,\n.bttn-pill:after {\n  position: absolute;\n  right: 0;\n  bottom: 0;\n  width: 100px;\n  height: 100px;\n  border-radius: 50%;\n  background: #fff;\n  content: '';\n  opacity: 0;\n  -webkit-transition: opacity 0.15s cubic-bezier(0.02, 0.01, 0.47, 1), -webkit-transform 0.15s cubic-bezier(0.02, 0.01, 0.47, 1);\n  transition: opacity 0.15s cubic-bezier(0.02, 0.01, 0.47, 1), -webkit-transform 0.15s cubic-bezier(0.02, 0.01, 0.47, 1);\n  transition: transform 0.15s cubic-bezier(0.02, 0.01, 0.47, 1), opacity 0.15s cubic-bezier(0.02, 0.01, 0.47, 1);\n  transition: transform 0.15s cubic-bezier(0.02, 0.01, 0.47, 1), opacity 0.15s cubic-bezier(0.02, 0.01, 0.47, 1), -webkit-transform 0.15s cubic-bezier(0.02, 0.01, 0.47, 1);\n  z-index: -1;\n  -webkit-transform: translate(100%, -25%) translate3d(0, 0, 0);\n  transform: translate(100%, -25%) translate3d(0, 0, 0); }\n\n.bttn-pill:hover,\n.bttn-pill:focus {\n  box-shadow: 0 1px 8px rgba(58, 51, 53, 0.3);\n  color: #fff;\n  -webkit-transition: all 0.5s cubic-bezier(0.02, 0.01, 0.47, 1);\n  transition: all 0.5s cubic-bezier(0.02, 0.01, 0.47, 1);\n  -webkit-transform: scale(1.1) translate3d(0, 0, 0);\n  transform: scale(1.1) translate3d(0, 0, 0); }\n\n.bttn-pill:hover:before,\n.bttn-pill:focus:before {\n  opacity: 0.15;\n  -webkit-transition: opacity 0.2s cubic-bezier(0.02, 0.01, 0.47, 1), -webkit-transform 0.2s cubic-bezier(0.02, 0.01, 0.47, 1);\n  transition: opacity 0.2s cubic-bezier(0.02, 0.01, 0.47, 1), -webkit-transform 0.2s cubic-bezier(0.02, 0.01, 0.47, 1);\n  transition: transform 0.2s cubic-bezier(0.02, 0.01, 0.47, 1), opacity 0.2s cubic-bezier(0.02, 0.01, 0.47, 1);\n  transition: transform 0.2s cubic-bezier(0.02, 0.01, 0.47, 1), opacity 0.2s cubic-bezier(0.02, 0.01, 0.47, 1), -webkit-transform 0.2s cubic-bezier(0.02, 0.01, 0.47, 1);\n  -webkit-transform: translate3d(50%, 0, 0) scale(0.9);\n  transform: translate3d(50%, 0, 0) scale(0.9); }\n\n.bttn-pill:hover:after,\n.bttn-pill:focus:after {\n  opacity: 0.25;\n  -webkit-transition: opacity 0.2s 0.05s cubic-bezier(0.02, 0.01, 0.47, 1), -webkit-transform 0.2s 0.05s cubic-bezier(0.02, 0.01, 0.47, 1);\n  transition: opacity 0.2s 0.05s cubic-bezier(0.02, 0.01, 0.47, 1), -webkit-transform 0.2s 0.05s cubic-bezier(0.02, 0.01, 0.47, 1);\n  transition: transform 0.2s 0.05s cubic-bezier(0.02, 0.01, 0.47, 1), opacity 0.2s 0.05s cubic-bezier(0.02, 0.01, 0.47, 1);\n  transition: transform 0.2s 0.05s cubic-bezier(0.02, 0.01, 0.47, 1), opacity 0.2s 0.05s cubic-bezier(0.02, 0.01, 0.47, 1), -webkit-transform 0.2s 0.05s cubic-bezier(0.02, 0.01, 0.47, 1);\n  -webkit-transform: translate(50%, 0) scale(1.1);\n  transform: translate(50%, 0) scale(1.1); }\n\n.bttn-pill.bttn-xs {\n  padding: 3px 8px;\n  font-size: 12px;\n  font-family: inherit; }\n\n.bttn-pill.bttn-xs:hover,\n.bttn-pill.bttn-xs:focus {\n  box-shadow: 0 1px 4px rgba(58, 51, 53, 0.3); }\n\n.bttn-pill.bttn-sm {\n  padding: 4px 10px;\n  font-size: 16px;\n  font-family: inherit; }\n\n.bttn-pill.bttn-sm:hover,\n.bttn-pill.bttn-sm:focus {\n  box-shadow: 0 1px 6px rgba(58, 51, 53, 0.3); }\n\n.bttn-pill.bttn-md {\n  font-size: 20px;\n  font-family: inherit;\n  padding: 5px 12px; }\n\n.bttn-pill.bttn-md:hover,\n.bttn-pill.bttn-md:focus {\n  box-shadow: 0 1px 8px rgba(58, 51, 53, 0.3); }\n\n.bttn-pill.bttn-lg {\n  padding: 8px 15px;\n  font-size: 24px;\n  font-family: inherit; }\n\n.bttn-pill.bttn-lg:hover,\n.bttn-pill.bttn-lg:focus {\n  box-shadow: 0 1px 10px rgba(58, 51, 53, 0.3); }\n\n.bttn-pill.bttn-default {\n  background: #fff;\n  color: #1d89ff; }\n\n.bttn-pill.bttn-default:hover,\n.bttn-pill.bttn-default:focus {\n  color: #1d89ff; }\n\n.bttn-pill.bttn-default:before,\n.bttn-pill.bttn-default:after {\n  background: #1d89ff; }\n\n.bttn-pill.bttn-primary {\n  background: #1d89ff;\n  color: #fff; }\n\n.bttn-pill.bttn-primary:hover,\n.bttn-pill.bttn-primary:focus {\n  color: #fff; }\n\n.bttn-pill.bttn-primary:before,\n.bttn-pill.bttn-primary:after {\n  background: #fff; }\n\n.bttn-pill.bttn-warning {\n  background: #feab3a;\n  color: #fff; }\n\n.bttn-pill.bttn-warning:hover,\n.bttn-pill.bttn-warning:focus {\n  color: #fff; }\n\n.bttn-pill.bttn-warning:before,\n.bttn-pill.bttn-warning:after {\n  background: #fff; }\n\n.bttn-pill.bttn-danger {\n  background: #ff5964;\n  color: #fff; }\n\n.bttn-pill.bttn-danger:hover,\n.bttn-pill.bttn-danger:focus {\n  color: #fff; }\n\n.bttn-pill.bttn-danger:before,\n.bttn-pill.bttn-danger:after {\n  background: #fff; }\n\n.bttn-pill.bttn-success {\n  background: #28b78d;\n  color: #fff; }\n\n.bttn-pill.bttn-success:hover,\n.bttn-pill.bttn-success:focus {\n  color: #fff; }\n\n.bttn-pill.bttn-success:before,\n.bttn-pill.bttn-success:after {\n  background: #fff; }\n\n.bttn-pill.bttn-royal {\n  background: #bd2df5;\n  color: #fff; }\n\n.bttn-pill.bttn-royal:hover,\n.bttn-pill.bttn-royal:focus {\n  color: #fff; }\n\n.bttn-pill.bttn-royal:before,\n.bttn-pill.bttn-royal:after {\n  background: #fff; }\n\n.btn {\n  box-sizing: border-box;\n  appearance: none;\n  background-color: transparent;\n  border: 2px solid #e74c3c;\n  border-radius: 0.6em;\n  color: #e74c3c;\n  cursor: pointer;\n  display: flex;\n  align-self: center;\n  font-size: 1rem;\n  font-weight: 400;\n  line-height: 1;\n  margin: 20px;\n  padding: 1.2em 2.8em;\n  text-decoration: none;\n  text-align: center;\n  text-transform: uppercase;\n  font-family: 'Montserrat', sans-serif;\n  font-weight: 700; }\n  .btn:hover, .btn:focus {\n    color: #fff;\n    outline: 0; }\n\n.third {\n  border-color: #3498db;\n  color: #fff;\n  box-shadow: 0 0 40px 40px #3498db inset, 0 0 0 0 #3498db;\n  transition: all 150ms ease-in-out; }\n  .third:hover {\n    box-shadow: 0 0 10px 0 #3498db inset, 0 0 10px 4px #3498db; }\n\n#bottom-button {\n  font-family: 'GeosansLight';\n  font-size: 20px; }\n", ""]);
 
 // exports
 
