@@ -6,6 +6,10 @@
   "author": "Alex Biczak <alex.biczak@story2.com>",
   "license": "None",
   "private": true,
+  "scripts": {
+    "build": "webpack --config webpack.config.js",
+    "start": "node server/server.js"
+  },
   "dependencies": {
     "express": "^4.16.2",
     "react": "^16.2.0",
