@@ -61,6 +61,9 @@ class Numbers extends Component {
       const year = newDate.getFullYear();
       const dateString = `${month}/${day}/${year}`;
       historyArray.unshift({ 'Date': dateString, 'Results': numbers });
+      numbers = numbers.sort((a, b) => {
+        return a - b;
+      });
       this.setState({
         previousResult: this.state.numbers,
         numbers,
