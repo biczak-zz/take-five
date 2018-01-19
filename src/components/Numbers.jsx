@@ -303,7 +303,8 @@ class Numbers extends Component {
     fiveRandom(0);
   }
   render() {
-    let currNumbs = this.state.numbers.sort((a, b) => {
+    let currNumbs = this.state.numbers.slice();
+    currNumbs.sort((a, b) => {
       return a - b;
     });
     const newNumbers = currNumbs.map((num) => {
