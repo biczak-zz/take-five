@@ -122,6 +122,7 @@ class Numbers extends Component {
       return this.generateNumbers();
     }
   }
+  
     // Verify that there is no more than One Single-Digit Number
   checkSingleDigits(numbers) {
     let singleDigitCount = 0;
