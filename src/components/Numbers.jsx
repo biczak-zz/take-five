@@ -61,9 +61,6 @@ class Numbers extends Component {
       const year = newDate.getFullYear();
       const dateString = `${month}/${day}/${year}`;
       historyArray.unshift({ 'Date': dateString, 'Results': numbers });
-      numbers = numbers.sort((a, b) => {
-        return a - b;
-      });
       this.setState({
         previousResult: this.state.numbers,
         numbers,
@@ -306,20 +303,26 @@ class Numbers extends Component {
     fiveRandom(0);
   }
   render() {
-    const newNumbers = this.state.numbers.map((num) => {
+    let currNumbs = this.state.numbers.sort((a, b) => {
+      return a - b;
+    });
+    const newNumbers = currNumbs.map((num) => {
       return (
         <p className="new-number">{num}</p>
       );
     });
     const previousNumbers = this.state.history.map((res) => {
+      let numbs = res['Results'].sort((a, b) => {
+        return a - b;
+      });
       if (this.state.history.indexOf(res) < 5) {
         return (
           <ul className="previous-result">
-            <li>{res['Results'][0]}</li>
-            <li>{res['Results'][1]}</li>
-            <li>{res['Results'][2]}</li>
-            <li>{res['Results'][3]}</li>
-            <li>{res['Results'][4]}</li>
+            <li>{numbs[0]}</li>
+            <li>{numbs[1]}</li>
+            <li>{numbs[2]}</li>
+            <li>{numbs[3]}</li>
+            <li>{numbs[4]}</li>
           </ul>
         );
       }
