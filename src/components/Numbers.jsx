@@ -273,7 +273,9 @@ class Numbers extends Component {
     const numberGenerator = (count) => {
       if (count < 5) {
         let generatedNumber = Math.floor((Math.random() * 39) + 1);
-        if (generatedNumbers.includes(generatedNumber) || generatedNumber === 40) {
+        if (generatedNumber === 40) {
+          return numberGenerator(count);
+        } else {
           generatedNumbers.push(generatedNumber);
           count++;
         }
@@ -292,7 +294,10 @@ class Numbers extends Component {
     const fiveRandom = (count) => {
       if (count < 5) {
         let rando = Math.floor((Math.random() * 38) + 1);
-        if (randomNums.includes(rando) || rando === 40) {
+        if (rando === 40) {
+          console.log('40');
+          return fiveRandom(count);
+        } else {
           randomNums.push(rando);
           count++;
         }
